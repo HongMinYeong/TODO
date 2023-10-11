@@ -1,9 +1,12 @@
 import React from 'react';
 
 //checkbox와 label을 렌더링하는 투두 하나
-export default function Todo({ item }) {
+export default function Todo({ item, deleteItem }) {
   console.log(item);
   const { id, title, done } = item;
+  const onDeleteButtonClick = () => {
+    deleteItem(id);
+  };
   return (
     <div>
       <input
@@ -13,6 +16,7 @@ export default function Todo({ item }) {
         defaultChecked={done}
       />
       <label htmlFor={`todo${id}`}>{title}</label>
+      <button onClick={onDeleteButtonClick}> DELETE</button>
     </div>
   );
 }

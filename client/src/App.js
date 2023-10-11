@@ -37,13 +37,25 @@ function App() {
     console.log(newItem);
     setTodoItems((prev) => [...prev, newItem]);
   };
+  //todoItems 상태에 특정 투두를 삭제하는일
+  const deleteItem = (Item) => {
+    const searchItem = todoItems.filter((value) => value.id !== Item);
+    // 새로운 아이템 ID 순서 지정
+    const updatedItems = searchItem.map((item, idx) => ({
+      ...item,
+      id: idx + 1,
+    }));
+
+    setTodoItems(updatedItems);
+  };
   return (
     <div className="App">
       <AddTodo addItem={addItem} />
       {/* todoItems 반복, props 데이터(투두 갹채)를 자식 컴포넌트에게 전달 */}
       {todoItems.map((item) => (
-        <Todo key={item.id} item={item} />
+        <Todo key={item.id} item={item} deleteItem={deleteItem} />
       ))}
+      {console.log(todoItems)}
     </div>
   );
 }
