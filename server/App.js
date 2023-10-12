@@ -1,17 +1,23 @@
 const express = require('express');
+const path = require('path');
+const cors = require('cors');
 const app = express();
 const PORT = 8000;
 const { sequelize } = require('./models');
 
-app.use(express.urlencoded({ extended: true }));
+const server = require('http').createServer(app);
+
+app.use(cors());
+// JSON 형식의 요청 본문(body)을 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+app.get('/', (req, res) => {
+  // 요청패스에 대한 콜백함수를 넣어줍니다.
+  res.send({ message: 'hello' });
 });
 
-const indexRouter = require('./routes/todo');
-app.use(indexRouter);
+const list = require('./routes/list');
+app.use('/', list);
 
 sequelize
   .sync({ force: false })

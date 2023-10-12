@@ -1,10 +1,11 @@
 const { todoList } = require('../models');
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
 
 exports.getTodos = async (req, res) => {
   try {
     const result = await todoList.findAll();
     res.send(result);
+    // res.send('연결완료');
   } catch (err) {
     console.log(err);
     res.send(err);
@@ -13,6 +14,7 @@ exports.getTodos = async (req, res) => {
 
 exports.postTodo = async (req, res) => {
   const { title, done } = req.body;
+  console.log(req.body); //{ title: 'ㅎㅎ', done: false }
 
   try {
     const result = await todoList.create({
@@ -32,6 +34,7 @@ exports.deleteTodo = async (req, res) => {
     const result = await todoList.destroy({
       where: { id },
     });
+    // await todoList.update({id:,},{where:{id:}});
     res.send({ result, message: '삭제가 완료되었습니다.' });
   } catch (err) {
     console.log(err);
