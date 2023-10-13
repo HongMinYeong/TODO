@@ -3,8 +3,11 @@ const { todoList } = require('../models');
 
 exports.getTodos = async (_, res) => {
   try {
-    let todos = await todoList.findAll();
-    res.send(todos);
+    // let todos = await todoList.findAll();
+    // 내림차순
+    let arrange = await todoList.findAll({ order: [['id', 'desc']] });
+
+    res.send(arrange);
   } catch (err) {
     res.send(err);
   }
@@ -39,15 +42,6 @@ exports.deleteTodo = async (req, res) => {
 exports.patchTodo = async (req, res) => {
   const { id } = req.params;
   console.log(req.body);
-  // await User.update(
-  //   {
-  //     name: req.body.name,
-  //     pw: req.body.pw,
-  //   },
-  //   {
-  //     where: { userid: req.body.userid },
-  //   }
-  // );
   try {
     const result = await todoList.update(
       {
@@ -58,7 +52,7 @@ exports.patchTodo = async (req, res) => {
         where: { id },
       }
     );
-    res.send({ result, message: '수정이 완료되었습니다.' });
+    res.end();
   } catch (err) {
     console.log(err);
     res.send(err);

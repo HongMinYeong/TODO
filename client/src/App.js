@@ -12,6 +12,8 @@ function App() {
   const getTodos = async () => {
     const res = await axios.get(`${api}/todos`);
     const result = res.data;
+    console.log(result);
+    //done : false 갯수
     const todo = result.filter((item) => item.done !== true);
     setNumberOfTodos(todo.length);
     setTodoItems(result);
@@ -46,7 +48,6 @@ function App() {
         title: Item.title,
         done: Item.done,
       });
-      console.log(res.data);
       getTodos();
     } catch (err) {
       console.error(err);
