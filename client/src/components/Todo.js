@@ -7,7 +7,7 @@ export default function Todo({ item, deleteItem, updateItem }) {
   const [todoItem, setTodoItem] = useState(item);
   const [readOnly, setReadOnly] = useState(true);
   useEffect(() => {
-    console.log('todo 업데이트');
+    // console.log('todo 업데이트');
     updateItem(todoItem);
   }, [todoItem]);
   const onDeleteButtonClick = () => {

@@ -7,25 +7,25 @@ function App() {
   const [todoItems, setTodoItems] = useState([]);
   const [numberOfTodos, setNumberOfTodos] = useState('');
   useEffect(() => {
+    const getTodos = async () => {
+      const res = await axios.get(`${api}/todos`);
+      const result = res.data;
+      //done : false 갯수
+      const todo = result.filter((item) => item.done !== true);
+      setNumberOfTodos(todo.length);
+      setTodoItems(result);
+    };
     getTodos();
   }, []);
-  const getTodos = async () => {
-    const res = await axios.get(`${api}/todos`);
-    const result = res.data;
-    //done : false 갯수
-    const todo = result.filter((item) => item.done !== true);
-    setNumberOfTodos(todo.length);
-    setTodoItems(result);
-  };
 
   //todoItems 상태에 새로운 투두를 추가하는 일
   const addItem = async (Item) => {
     try {
-      await axios.post(`${api}/todo`, {
+      const res = await axios.post(`${api}/todo`, {
         title: Item.title,
         done: false,
       });
-      getTodos();
+      setTodoItems(...todoItems, res.data);
     } catch (err) {
       console.error(err);
     }
@@ -34,8 +34,8 @@ function App() {
   //todoItems 상태에 특정 투두를 삭제하는일
   const deleteItem = async (Item) => {
     try {
-      await axios.delete(`http://localhost:8000/todo/${Item.id}`);
-      getTodos();
+      const res = await axios.delete(`http://localhost:8000/todo/${Item.id}`);
+      setTodoItems(res.data);
     } catch (err) {
       console.error(err);
     }
@@ -43,7 +43,6 @@ function App() {
   const updateItem = async (Item) => {
     try {
       await axios.patch(`${api}/todo/${Item.id}`, Item);
-      getTodos();
     } catch (err) {
       console.error(err);
     }
