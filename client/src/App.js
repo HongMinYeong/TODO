@@ -48,12 +48,30 @@ function App() {
       console.error(err);
     }
   };
+  const patchItem = async (Item) => {
+    console.log('patchItem은', Item);
+    try {
+      const res = await axios.patch(`http://localhost:8000/todo/${Item.id}`, {
+        title: Item.title,
+        done: Item.done,
+      });
+      console.log(res.data);
+      todoLists();
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="App">
       <AddTodo addItem={addItem} />
       {/* todoItems 반복, props 데이터(투두 갹채)를 자식 컴포넌트에게 전달 */}
       {todoItems.map((item) => (
-        <Todo key={item.id} item={item} deleteItem={deleteItem} />
+        <Todo
+          key={item.id}
+          item={item}
+          deleteItem={deleteItem}
+          patchItem={patchItem}
+        />
       ))}
       {console.log(todoItems)}
     </div>

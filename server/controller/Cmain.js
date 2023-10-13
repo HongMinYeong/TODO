@@ -41,3 +41,31 @@ exports.deleteTodo = async (req, res) => {
     res.send(err);
   }
 };
+
+exports.patchTodo = async (req, res) => {
+  const { id } = req.params;
+  // await User.update(
+  //   {
+  //     name: req.body.name,
+  //     pw: req.body.pw,
+  //   },
+  //   {
+  //     where: { userid: req.body.userid },
+  //   }
+  // );
+  try {
+    const result = await todoList.update(
+      {
+        title: req.body.title,
+        done: req.body.done,
+      },
+      {
+        where: { id },
+      }
+    );
+    res.send({ result, message: '수정이 완료되었습니다.' });
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
+};

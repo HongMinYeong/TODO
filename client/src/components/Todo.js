@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 //checkbox와 label을 렌더링하는 투두 하나
-export default function Todo({ item, deleteItem }) {
+export default function Todo({ item, deleteItem, patchItem }) {
   console.log(item);
   const { id, title, done } = item;
   const [todoItem, setTodoItem] = useState(item);
@@ -16,6 +16,7 @@ export default function Todo({ item, deleteItem }) {
   const editEventHandler = (e) => {
     const { title, ...rest } = todoItem;
     setTodoItem({ title: e.target.value, ...rest });
+    patchItem(todoItem);
   };
   //Enter 키 누르면 readOnly를 true로 변경
   const editKeyEventHandler = (e) => {
@@ -26,6 +27,7 @@ export default function Todo({ item, deleteItem }) {
   const checkboxEventHandler = (e) => {
     const { done, ...rest } = todoItem;
     setTodoItem({ done: e.target.checked, ...rest });
+    patchItem(todoItem);
   };
   return (
     <div>
