@@ -16,8 +16,13 @@ export default function Todo({ item, deleteItem, patchItem }) {
   const editEventHandler = (e) => {
     const { title, ...rest } = todoItem;
     setTodoItem({ title: e.target.value, ...rest });
-    patchItem(todoItem);
+    patchItem({ title: e.target.value, ...rest });
+    // patch();
+    // patchItem(todoItem);
   };
+  // const patch = () => {
+  //   patchItem(todoItem);
+  // };
   //Enter 키 누르면 readOnly를 true로 변경
   const editKeyEventHandler = (e) => {
     if (e.key === 'Enter') {
@@ -27,7 +32,9 @@ export default function Todo({ item, deleteItem, patchItem }) {
   const checkboxEventHandler = (e) => {
     const { done, ...rest } = todoItem;
     setTodoItem({ done: e.target.checked, ...rest });
-    patchItem(todoItem);
+    // patch();
+    patchItem({ done: e.target.checked, ...rest });
+    //  patchItem(todoItem);
   };
   return (
     <div>
@@ -35,6 +42,7 @@ export default function Todo({ item, deleteItem, patchItem }) {
         type="checkbox"
         name={`todo${id}`}
         id={`todo${id}`}
+        // checked={done}
         defaultChecked={done}
         onChange={checkboxEventHandler}
       />

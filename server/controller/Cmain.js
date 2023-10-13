@@ -1,29 +1,24 @@
 const { todoList } = require('../models');
 // const Sequelize = require('sequelize');
 
-exports.getTodos = async (req, res) => {
+exports.getTodos = async (_, res) => {
   try {
-    const result = await todoList.findAll();
-    res.send(result);
-    // res.send('연결완료');
+    let todos = await todoList.findAll();
+    res.send(todos);
   } catch (err) {
-    console.log(err);
     res.send(err);
   }
 };
 
 exports.postTodo = async (req, res) => {
   const { title, done } = req.body;
-  console.log(req.body); //{ title: 'ㅎㅎ', done: false }
-
   try {
-    const result = await todoList.create({
+    let newTodo = await todoList.create({
       title,
       done,
     });
-    res.send({ result, message: '등록이 완료되었습니다.' });
+    res.end();
   } catch (err) {
-    console.log(err);
     res.send(err);
   }
 };
@@ -34,8 +29,7 @@ exports.deleteTodo = async (req, res) => {
     const result = await todoList.destroy({
       where: { id },
     });
-    // await todoList.update({id:,},{where:{id:}});
-    res.send({ result, message: '삭제가 완료되었습니다.' });
+    res.end();
   } catch (err) {
     console.log(err);
     res.send(err);
@@ -44,6 +38,7 @@ exports.deleteTodo = async (req, res) => {
 
 exports.patchTodo = async (req, res) => {
   const { id } = req.params;
+  console.log(req.body);
   // await User.update(
   //   {
   //     name: req.body.name,

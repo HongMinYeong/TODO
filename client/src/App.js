@@ -3,34 +3,25 @@ import Todo from './components/Todo';
 import AddTodo from './components/AddTodo';
 import axios from 'axios';
 function App() {
+  const api = process.env.REACT_APP_DB_HOST;
   const [todoItems, setTodoItems] = useState([]);
-  const todoLists = async () => {
-    const response = await axios.get('http://localhost:8000/todos');
-    const result = response.data;
-    const item = result.map((list) => ({
-      id: list.id,
-      title: list.title,
-      done: list.done,
-    }));
-    setTodoItems(item);
-  };
-
   useEffect(() => {
-    todoLists();
+    getTodos();
   }, []);
+  const getTodos = async () => {
+    const res = await axios.get(`${api}/todos`);
+    const result = res.data;
+    setTodoItems(result);
+  };
 
   //todoItems 상태에 새로운 투두를 추가하는 일
   const addItem = async (Item) => {
     try {
-      const response = await axios.post('http://localhost:8000/todo', {
+      await axios.post(`${api}/todo`, {
         title: Item.title,
         done: false,
       });
-
-      console.log(response.data);
-      todoLists();
-
-      // setTodoItems((prev) => [...prev, newItem]);
+      getTodos();
     } catch (err) {
       console.error(err);
     }
@@ -39,11 +30,8 @@ function App() {
   //todoItems 상태에 특정 투두를 삭제하는일
   const deleteItem = async (Item) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/todo/${Item.id}`
-      );
-      console.log(response.data);
-      todoLists();
+      await axios.delete(`http://localhost:8000/todo/${Item.id}`);
+      getTodos();
     } catch (err) {
       console.error(err);
     }
@@ -51,12 +39,12 @@ function App() {
   const patchItem = async (Item) => {
     console.log('patchItem은', Item);
     try {
-      const res = await axios.patch(`http://localhost:8000/todo/${Item.id}`, {
+      const res = await axios.patch(`${api}/todo/${Item.id}`, {
         title: Item.title,
         done: Item.done,
       });
       console.log(res.data);
-      todoLists();
+      getTodos();
     } catch (err) {
       console.error(err);
     }

@@ -5,7 +5,8 @@ const app = express();
 const PORT = 8000;
 const { sequelize } = require('./models');
 
-const server = require('http').createServer(app);
+// const server = require('http').createServer(app);
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 // JSON 형식의 요청 본문(body)을 파싱하기 위한 미들웨어 설정
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 const list = require('./routes/list');
-app.use('/', list);
+app.use('/', list); // 기본주소: localhost:PORT/
 
 sequelize
   .sync({ force: false })
