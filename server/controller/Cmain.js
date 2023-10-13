@@ -3,11 +3,9 @@ const { todoList } = require('../models');
 
 exports.getTodos = async (_, res) => {
   try {
-    // let todos = await todoList.findAll();
     // 내림차순
-    let arrange = await todoList.findAll({ order: [['id', 'desc']] });
-
-    res.send(arrange);
+    let result = await todoList.findAll({ order: [['id', 'desc']] });
+    res.send(result);
   } catch (err) {
     res.send(err);
   }

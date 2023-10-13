@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="App">
       <AddTodo addItem={addItem} />
-      <div>해야할 일 : {numberOfTodos} 개</div>
+      <div>😜 {numberOfTodos} Todos </div>
       {/* todoItems 반복, props 데이터(투두 갹채)를 자식 컴포넌트에게 전달 */}
       {todoItems.map((item) => (
         <Todo

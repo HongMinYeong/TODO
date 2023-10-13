@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //checkbox와 label을 렌더링하는 투두 하나
 export default function Todo({ item, deleteItem, updateItem }) {
@@ -6,6 +6,10 @@ export default function Todo({ item, deleteItem, updateItem }) {
   const { id, title, done } = item;
   const [todoItem, setTodoItem] = useState(item);
   const [readOnly, setReadOnly] = useState(true);
+  useEffect(() => {
+    console.log('todo 업데이트');
+    updateItem(todoItem);
+  }, [todoItem]);
   const onDeleteButtonClick = () => {
     deleteItem(item);
   };
@@ -22,7 +26,7 @@ export default function Todo({ item, deleteItem, updateItem }) {
   const editKeyEventHandler = (e) => {
     if (e.key === 'Enter') {
       setReadOnly(true);
-      updateItem(todoItem); //엔터키 누르면 저장
+      //updateItem(todoItem); //엔터키 누르면 저장
     }
   };
   const checkboxEventHandler = (e) => {
@@ -32,7 +36,7 @@ export default function Todo({ item, deleteItem, updateItem }) {
       ...rest,
     };
     setTodoItem(updatedItem);
-    updateItem(updatedItem);
+    //updateItem(updatedItem);
   };
   return (
     <div>
