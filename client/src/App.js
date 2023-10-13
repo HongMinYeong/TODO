@@ -5,12 +5,15 @@ import axios from 'axios';
 function App() {
   const api = process.env.REACT_APP_DB_HOST;
   const [todoItems, setTodoItems] = useState([]);
+  const [numberOfTodos, setNumberOfTodos] = useState('');
   useEffect(() => {
     getTodos();
   }, []);
   const getTodos = async () => {
     const res = await axios.get(`${api}/todos`);
     const result = res.data;
+    const todo = result.filter((item) => item.done !== true);
+    setNumberOfTodos(todo.length);
     setTodoItems(result);
   };
 
@@ -52,6 +55,7 @@ function App() {
   return (
     <div className="App">
       <AddTodo addItem={addItem} />
+      <div>해야할 일 : {numberOfTodos} 개</div>
       {/* todoItems 반복, props 데이터(투두 갹채)를 자식 컴포넌트에게 전달 */}
       {todoItems.map((item) => (
         <Todo
