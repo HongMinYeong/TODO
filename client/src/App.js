@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     todoLists();
-  }, [todoItems]);
+  }, []);
 
   //todoItems 상태에 새로운 투두를 추가하는 일
   const addItem = async (Item) => {
@@ -28,12 +28,7 @@ function App() {
       });
 
       console.log(response.data);
-
-      const newItem = {
-        id: todoItems.length + 1,
-        title: Item.title,
-        done: false,
-      };
+      todoLists();
 
       // setTodoItems((prev) => [...prev, newItem]);
     } catch (err) {
@@ -46,13 +41,7 @@ function App() {
     try {
       const response = await axios.delete(`http://localhost:8000/todo/${Item}`);
       console.log(response.data);
-      // const searchItem = todoItems.filter((value) => value.id !== Item);
-      // const updatedItems = searchItem.map((item, idx) => ({
-      //   ...item,
-      //   id: idx + 1,
-      // }));
-
-      // setTodoItems(updatedItems);
+      todoLists();
     } catch (err) {
       console.error(err);
     }
