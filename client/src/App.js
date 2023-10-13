@@ -39,7 +39,9 @@ function App() {
   //todoItems 상태에 특정 투두를 삭제하는일
   const deleteItem = async (Item) => {
     try {
-      const response = await axios.delete(`http://localhost:8000/todo/${Item}`);
+      const response = await axios.delete(
+        `http://localhost:8000/todo/${Item.id}`
+      );
       console.log(response.data);
       todoLists();
     } catch (err) {
