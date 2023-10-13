@@ -12,7 +12,6 @@ function App() {
   const getTodos = async () => {
     const res = await axios.get(`${api}/todos`);
     const result = res.data;
-    console.log(result);
     //done : false 갯수
     const todo = result.filter((item) => item.done !== true);
     setNumberOfTodos(todo.length);
@@ -41,13 +40,9 @@ function App() {
       console.error(err);
     }
   };
-  const patchItem = async (Item) => {
-    console.log('patchItem은', Item);
+  const updateItem = async (Item) => {
     try {
-      const res = await axios.patch(`${api}/todo/${Item.id}`, {
-        title: Item.title,
-        done: Item.done,
-      });
+      await axios.patch(`${api}/todo/${Item.id}`, Item);
       getTodos();
     } catch (err) {
       console.error(err);
@@ -63,10 +58,10 @@ function App() {
           key={item.id}
           item={item}
           deleteItem={deleteItem}
-          patchItem={patchItem}
+          updateItem={updateItem}
         />
       ))}
-      {console.log(todoItems)}
+      {/* {console.log(todoItems)} */}
     </div>
   );
 }

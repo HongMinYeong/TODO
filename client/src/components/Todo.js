@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 //checkbox와 label을 렌더링하는 투두 하나
-export default function Todo({ item, deleteItem, patchItem }) {
-  console.log(item);
+export default function Todo({ item, deleteItem, updateItem }) {
+  // console.log(item);
   const { id, title, done } = item;
   const [todoItem, setTodoItem] = useState(item);
   const [readOnly, setReadOnly] = useState(true);
@@ -16,25 +16,23 @@ export default function Todo({ item, deleteItem, patchItem }) {
   const editEventHandler = (e) => {
     const { title, ...rest } = todoItem;
     setTodoItem({ title: e.target.value, ...rest });
-    patchItem({ title: e.target.value, ...rest });
-    // patch();
-    // patchItem(todoItem);
   };
-  // const patch = () => {
-  //   patchItem(todoItem);
-  // };
+
   //Enter 키 누르면 readOnly를 true로 변경
   const editKeyEventHandler = (e) => {
     if (e.key === 'Enter') {
       setReadOnly(true);
+      updateItem(todoItem); //엔터키 누르면 저장
     }
   };
   const checkboxEventHandler = (e) => {
     const { done, ...rest } = todoItem;
-    setTodoItem({ done: e.target.checked, ...rest });
-    // patch();
-    patchItem({ done: e.target.checked, ...rest });
-    //  patchItem(todoItem);
+    const updatedItem = {
+      done: e.target.checked,
+      ...rest,
+    };
+    setTodoItem(updatedItem);
+    updateItem(updatedItem);
   };
   return (
     <div>
